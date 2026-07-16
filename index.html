@@ -5,26 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرض المجسم ثلاثي الأبعاد</title>
     <style>
-        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f0f0; }
-        model-viewer { width: 100%; height: 100vh; background-color: #ffffff; }
-        #msg { font-family: Arial, sans-serif; color: #333; font-size: 18px; text-align: center; padding: 20px; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #000000; /* خلفية سوداء تماماً */
+        }
+        model-viewer { 
+            width: 100%; 
+            height: 100vh; 
+            background-color: #000000; /* خلفية شاشة العرض سوداء */
+        }
+        #msg { 
+            font-family: Arial, sans-serif; 
+            color: #ffffff; /* كتابة باللون الأبيض */
+            font-size: 18px; 
+            text-align: center; 
+            padding: 20px; 
+        }
     </style>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
 <body>
 
-    <model-viewer id="viewer" src="" alt="3D Model" shadow-intensity="1" camera-controls touch-action="pan-y" ar style="display:none;"></model-viewer>
+    <model-viewer 
+        id="viewer" 
+        src="" 
+        alt="3D Model" 
+        shadow-intensity="0" 
+        camera-controls 
+        touch-action="pan-y" 
+        exposure="1.2"
+        ar 
+        style="display:none;">
+    </model-viewer>
+    
     <div id="msg">جاري تحميل المجسم...</div>
 
     <script>
-        // قراءة الكلمة المكتوبة بعد اسم الموقع
         const urlParams = new URLSearchParams(window.location.search);
-        const modelName = urlParams.get('file'); // هنستخدم كلمة file في اللينك
+        const modelName = urlParams.get('file'); 
         const viewer = document.getElementById('viewer');
         const msg = document.getElementById('msg');
 
         if (modelName) {
-            // هيأخذ الاسم ويضيف له .glb تلقائياً
             viewer.src = modelName + '.glb';
             viewer.style.display = 'block';
             msg.style.display = 'none';
