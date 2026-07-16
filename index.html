@@ -31,11 +31,12 @@
 </head>
 <body>
 
+    <!-- أضفنا autoplay والتحكم الكامل في تشغيل الأنيميشن -->
     <model-viewer 
         id="viewer" 
         src="" 
         alt="3D Model" 
-        shadow-intensity="0" 
+        shadow-intensity="0.5" 
         camera-controls 
         touch-action="pan-y" 
         exposure="1"
@@ -53,17 +54,21 @@
         const msg = document.getElementById('msg');
 
         if (modelName) {
-            viewer.src = modelName + '.glb';
+            // هيشغل الملف سواء كان .glb أو .gltf
+            viewer.src = modelName + '.gltf';
             
+            // كود إجبار تشغيل الأنيميشن برمجياً بمجرد ما المجسم يخلص تحميل
             viewer.addEventListener('load', () => {
-                const material = viewer.model.materials[0];
-                if (material) {
-                    material.setWireframe(true);
+                viewer.style.display = 'block';
+                msg.style.display = 'none';
+                
+                // سطر سحري بيلقط أول أنيميشن في الملف ويشغله فوراً
+                if (viewer.availableAnimations.length > 0) {
+                    viewer.animationName = viewer.availableAnimations[0];
+                    viewer.play();
                 }
             });
 
-            viewer.style.display = 'block';
-            msg.style.display = 'none';
         } else {
             msg.innerText = "برجاء اختيار الموديل الصحيح من الرابط.";
         }
