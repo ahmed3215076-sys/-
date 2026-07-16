@@ -5,59 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عرض المجسم ثلاثي الأبعاد</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
-        model-viewer {
-            width: 100%;
-            height: 100vh;
-            background-color: #ffffff;
-        }
-        #error-msg {
-            display: none;
-            font-family: Arial, sans-serif;
-            color: #ff3b30;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px;
-        }
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f0f0; }
+        model-viewer { width: 100%; height: 100vh; background-color: #ffffff; }
+        #msg { font-family: Arial, sans-serif; color: #333; font-size: 18px; text-align: center; padding: 20px; }
     </style>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 </head>
 <body>
 
-    <model-viewer 
-        id="viewer"
-        src="" 
-        alt="3D Model" 
-        shadow-intensity="1" 
-        camera-controls 
-        touch-action="pan-y" 
-        ar>
-    </model-viewer>
-
-    <div id="error-msg">عذراً، لم يتم العثور على المجسم المطلوب!</div>
+    <model-viewer id="viewer" src="" alt="3D Model" shadow-intensity="1" camera-controls touch-action="pan-y" ar style="display:none;"></model-viewer>
+    <div id="msg">جاري تحميل المجسم...</div>
 
     <script>
+        // قراءة الكلمة المكتوبة بعد اسم الموقع
         const urlParams = new URLSearchParams(window.location.search);
-        const modelName = urlParams.get('model');
+        const modelName = urlParams.get('file'); // هنستخدم كلمة file في اللينك
         const viewer = document.getElementById('viewer');
-        const errorMsg = document.getElementById('error-msg');
+        const msg = document.getElementById('msg');
 
         if (modelName) {
-            const finalModelPath = decodeURIComponent(modelName) + '.glb';
-            viewer.setAttribute('src', finalModelPath);
+            // هيأخذ الاسم ويضيف له .glb تلقائياً
+            viewer.src = modelName + '.glb';
+            viewer.style.display = 'block';
+            msg.style.display = 'none';
         } else {
-            viewer.style.display = 'none';
-            errorMsg.style.display = 'block';
-            errorMsg.innerText = "يرجى مسح الباركود الخاص بالمجسم المطلوب عرضه.";
+            msg.innerText = "برجاء اختيار الموديل الصحيح من الرابط.";
         }
     </script>
 
